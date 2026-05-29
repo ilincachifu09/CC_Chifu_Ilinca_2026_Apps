@@ -107,7 +107,7 @@ async function authenticate(req) {
     user: decoded,
     claims: {
       role,
-      device_id: decoded["custom:device_id"] || null,
+      device_id: decoded["custom:deviceId"] || decoded["custom:device_id"] || null,
     },
   };
 }

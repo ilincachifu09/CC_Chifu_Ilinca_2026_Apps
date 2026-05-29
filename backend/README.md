@@ -4,7 +4,8 @@ Minimal Node.js Azure Functions backend used by students to learn:
 
 - JWT verification with AWS Cognito JWKs
 - role-based authorization (`admin` / `user`)
-- claim-based filtering (`custom:device_id`)
+- claim-based filtering (`custom:deviceId`, with `custom:device_id` kept as a fallback)
+- Azure Blob Storage dataset reads using managed identity
 
 ## Endpoints
 
@@ -16,9 +17,20 @@ Minimal Node.js Azure Functions backend used by students to learn:
 
 - `Root/index.js` -> health/root endpoint
 - `Profile/index.js` -> returns resolved claims
-- `Data/index.js` -> role + device_id data filtering
+- `Data/index.js` -> reads `energy_usage_large.csv` from the `datasets` blob container and filters rows by role/device
 - `shared/auth.js` -> Cognito JWT validation + shared HTTP helpers
 - `host.json` -> Azure Functions host configuration
+
+## Dataset configuration
+
+The deployed Function App is already wired by Terraform for managed identity access:
+
+- `STORAGE_ACCOUNT_NAME=sttucnccdeviscbi29cz`
+- `DATASETS_CONTAINER_NAME=datasets`
+- `DATASET_BLOB_NAME=energy_usage_large.csv`
+
+The managed identity client id is supplied through `AZURE_CLIENT_ID`, so
+`DefaultAzureCredential` can authenticate to Blob Storage without keys.
 
 ## Local (Docker)
 
