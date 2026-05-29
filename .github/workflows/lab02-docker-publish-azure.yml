@@ -1,6 +1,9 @@
 name: Publish + Deploy Docker Images to Azure (Lab02)
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
